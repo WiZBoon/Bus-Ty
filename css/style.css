@@ -772,3 +772,67 @@ footer {
         flex-direction: column;
     }
 }
+/* Add these styles to your existing CSS */
+
+@media (max-width: 768px) {
+    /* Bus card mobile styles */
+    .bus-card {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .bus-info, .bus-pricing {
+        width: 100%;
+    }
+    
+    .bus-pricing {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        align-items: flex-start !important;
+    }
+    
+    .bus-pricing .price {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+    }
+    
+    .bus-pricing .seats {
+        margin-bottom: 10px;
+    }
+    
+    .bus-pricing .view-seats {
+        width: 100%;
+        padding: 12px;
+    }
+    
+    /* Adjust bus timings for mobile */
+    .bus-timings {
+        flex-wrap: wrap;
+    }
+    
+    .departure, .arrival {
+        flex: 1;
+        min-width: 100px;
+        margin-bottom: 10px;
+    }
+    
+    .duration {
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
+    
+    .duration .line {
+        width: 100%;
+    }
+    
+    /* Adjust bus amenities for mobile */
+    .bus-amenities {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .bus-amenities span {
+        font-size: 0.8rem;
+    }
+}
