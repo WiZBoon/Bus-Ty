@@ -564,7 +564,16 @@ footer {
 .legend .seat {
     cursor: default;
 }
-
+.legend .color-box {
+    width: 20px;  /* Box size */
+    height: 20px;
+    border-radius: 5px; /* Rounded corners */
+    display: inline-block;
+}
+.legend .available-box { background-color: green; }
+.legend .selected-box { background-color: #ffc107 }
+.legend .booked-box { background-color: #e91e63 }
+.legend .ladies-box { background-color: pink; }
 .summary-details p {
     margin-bottom: 10px;
 }
@@ -912,3 +921,4 @@ footer {
         display: block; /* Show gap on larger screens */
     }
 }
+
