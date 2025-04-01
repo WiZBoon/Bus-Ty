@@ -831,6 +831,45 @@ footer {
         flex-wrap: wrap;
         gap: 8px;
     }
+
+    @media (max-width: 480px) {
+    /* Make search header more compact */
+    .search-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .filter-options {
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .filter-options select {
+        width: 60%;
+    }
+    
+    .filter-btn {
+        width: 35%;
+    }
+    
+    /* Adjust bus operator info */
+    .bus-operator {
+        flex-wrap: wrap;
+    }
+    
+    .bus-operator img {
+        margin-right: 10px;
+    }
+    
+    .bus-operator h3 {
+        margin-right: 10px;
+        font-size: 1rem;
+    }
+    
+    .rating {
+        font-size: 0.8rem;
+    }
+}
     
     .bus-amenities span {
         font-size: 0.8rem;
