@@ -1,125 +1,60 @@
-// Map functionality for the Bus-Ty-like website
-
-// Initialize map on search page
-function initMap() {
-    // Check if we're on the search page and map element exists
+// Initialize map on search page with Google Maps Directions and Geocoding API
+async function initMap() {
     if (!document.getElementById('map')) return;
     
-    // Create map centered on India
     const map = L.map('map').setView([20.5937, 78.9629], 5);
     
-    // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
-    // Get search data
     const searchData = JSON.parse(sessionStorage.getItem('searchData'));
     if (!searchData) return;
     
-    // Sample coordinates for demonstration
-    // In a real app, you would geocode the locations or have predefined coordinates
-    let fromCoords, toCoords;
+    const apiKey = 'AIzaSyA1BOycetEsgve33D3ST0aeYTIT-_jyOt0';
     
-    // Set coordinates based on common routes (simplified for demo)
-    if (searchData.from.toLowerCase().includes('mumbai') && searchData.to.toLowerCase().includes('pune')) {
-        fromCoords = [19.0760, 72.8777]; // Mumbai
-        toCoords = [18.5204, 73.8567];    // Pune
-    } else if (searchData.from.toLowerCase().includes('delhi') && searchData.to.toLowerCase().includes('jaipur')) {
-        fromCoords = [28.7041, 77.1025];  // Delhi
-        toCoords = [26.9124, 75.7873];    // Jaipur
-    } else {
-        // Default to Mumbai to Pune if no specific route
-        fromCoords = [19.0760, 72.8777];
-        toCoords = [18.5204, 73.8567];
+    async function getCoordinates(location) {
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=${apiKey}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.results.length > 0) {
+                return [
+                    data.results[0].geometry.location.lat,
+                    data.results[0].geometry.location.lng
+                ];
+            }
+        } catch (error) {
+            console.error('Error fetching coordinates:', error);
+        }
+        return null;
     }
     
-    // Add markers
-    const fromMarker = L.marker(fromCoords).addTo(map)
-        .bindPopup(`<h3>${searchData.from}</h3><p>Departure point</p>`)
-        .openPopup();
+    const fromCoords = await getCoordinates(searchData.from) || [19.0760, 72.8777];
+    const toCoords = await getCoordinates(searchData.to) || [18.5204, 73.8567];
     
-    const toMarker = L.marker(toCoords).addTo(map)
-        .bindPopup(`<h3>${searchData.to}</h3><p>Arrival point</p>`);
+    // Fetch route from Google Maps Directions API
+    const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${fromCoords[0]},${fromCoords[1]}&destination=${toCoords[0]},${toCoords[1]}&key=${apiKey}`;
     
-    // Add a line between the points
-    const route = L.polyline([fromCoords, toCoords], {color: '#d84e55'}).addTo(map);
+    try {
+        const response = await fetch(directionsUrl);
+        const data = await response.json();
+        
+        if (data.routes && data.routes.length > 0) {
+            const routeCoords = data.routes[0].legs[0].steps.map(step => [
+                step.start_location.lat, step.start_location.lng
+            ]);
+            
+            routeCoords.push([data.routes[0].legs[0].end_location.lat, data.routes[0].legs[0].end_location.lng]);
+            L.polyline(routeCoords, { color: '#d84e55', weight: 3 }).addTo(map);
+        }
+    } catch (error) {
+        console.error('Error fetching route:', error);
+    }
     
-    // Fit map to show both locations
+    L.marker(fromCoords).addTo(map).bindPopup(`<h3>${searchData.from}</h3><p>Departure</p>`).openPopup();
+    L.marker(toCoords).addTo(map).bindPopup(`<h3>${searchData.to}</h3><p>Arrival</p>`);
     map.fitBounds([fromCoords, toCoords]);
 }
 
-// Initialize map in trip modal
-function initTripMap() {
-    // Check if trip map element exists
-    if (!document.getElementById('trip-map')) return;
-    
-    // Create map centered on India
-    const map = L.map('trip-map').setView([20.5937, 78.9629], 5);
-    
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    
-    // Sample coordinates for Mumbai to Pune trip
-    const mumbai = [19.0760, 72.8777];
-    const pune = [18.5204, 73.8567];
-    
-    // Custom icons
-    const startIcon = L.divIcon({
-        className: 'route-marker route-marker-start',
-        iconSize: [12, 12]
-    });
-    
-    const endIcon = L.divIcon({
-        className: 'route-marker route-marker-end',
-        iconSize: [12, 12]
-    });
-    
-    // Add markers with custom icons
-    L.marker(mumbai, {icon: startIcon}).addTo(map)
-        .bindPopup('<h3>Mumbai</h3><p>Departure: 22:30</p>')
-        .openPopup();
-    
-    L.marker(pune, {icon: endIcon}).addTo(map)
-        .bindPopup('<h3>Pune</h3><p>Arrival: 02:00</p>');
-    
-    // Add a line between the points
-    L.polyline([mumbai, pune], {color: '#d84e55'}).addTo(map);
-    
-    // Fit map to show both locations
-    map.fitBounds([mumbai, pune]);
-    
-    // Add intermediate points for a more realistic route
-    const routePoints = [
-        mumbai,
-        [19.2183, 72.9781], // Thane
-        [19.3919, 73.2627], // Kalyan
-        [19.1676, 73.3423], // Lonavala
-        [18.7467, 73.4087], // Khandala
-        pune
-    ];
-    
-    // Add the detailed route
-    L.polyline(routePoints, {color: '#d84e55', weight: 3}).addTo(map);
-    
-    // Add markers for intermediate points
-    routePoints.forEach((point, index) => {
-        if (index > 0 && index < routePoints.length - 1) {
-            L.circleMarker(point, {
-                radius: 5,
-                fillColor: '#d84e55',
-                color: '#fff',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            }).addTo(map);
-        }
-    });
-}
-
-// Initialize maps when page loads
-window.addEventListener('load', function() {
-    initMap();
-});
+window.addEventListener('load', initMap);

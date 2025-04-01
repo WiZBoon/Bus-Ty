@@ -36,7 +36,7 @@ button {
 
 /* Header Styles */
 header {
-    background-color: #d84e55;
+    background-color: #66e093;
     color: white;
     padding: 15px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -72,7 +72,7 @@ nav ul li a:hover, nav ul li a.active {
 
 .auth-buttons .login {
     background-color: white;
-    color: #d84e55;
+    color: #4ed8c8;
     padding: 8px 15px;
     border-radius: 4px;
     font-weight: 600;
@@ -85,7 +85,7 @@ nav ul li a:hover, nav ul li a.active {
 
 /* Search Section */
 .search-section {
-    background-color: #d84e55;
+    background-color: #66e093;
     color: white;
     padding: 40px 0;
     text-align: center;
@@ -130,7 +130,7 @@ nav ul li a:hover, nav ul li a.active {
 }
 
 .swap-btn {
-    color: #d84e55;
+    color: #66e093;
     background: none;
     font-size: 1.2rem;
     align-self: center;
@@ -188,7 +188,7 @@ nav ul li a:hover, nav ul li a.active {
 .offer-card p {
     padding: 15px;
     font-weight: 600;
-    color: #d84e55;
+    color: #66e093;
 }
 
 /* Features Section */
@@ -221,7 +221,7 @@ nav ul li a:hover, nav ul li a.active {
 
 .feature-card i {
     font-size: 2.5rem;
-    color: #d84e55;
+    color: #66e093;
     margin-bottom: 20px;
 }
 
@@ -409,7 +409,7 @@ footer {
 .price {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #d84e55;
+    color: #66e093;
 }
 
 .seats {
