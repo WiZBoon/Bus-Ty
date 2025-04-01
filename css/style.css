@@ -498,21 +498,24 @@ footer {
 }
 
 .driver {
+    grid-column: 1 / -1;
     text-align: center;
     padding: 10px;
     background-color: #f5f5f5;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .seats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    gap: 10px;
+    margin: 15px 0;
 }
 
 .seat {
-    width: 40px;
+    width: 100%;
     height: 40px;
     display: flex;
     align-items: center;
@@ -522,6 +525,7 @@ footer {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .seat.available {
@@ -765,11 +769,17 @@ footer {
     }
 
     .seats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
     }
 
     .trip-details {
         flex-direction: column;
+    }
+    
+    .seat {
+        height: 35px;
+        font-size: 0.8rem;
     }
 }
 /* Add these styles to your existing CSS */
@@ -833,6 +843,19 @@ footer {
     }
 
     @media (max-width: 480px) {
+    .seats-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+    .seat {
+        height: 30px;
+        font-size: 0.7rem;
+    }
+    .legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
     /* Make search header more compact */
     .search-header {
         flex-direction: column;
@@ -875,69 +898,10 @@ footer {
         font-size: 0.8rem;
     }
 }
-/* Seat Selection Styles */
-.seats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin: 15px 0;
-}
 
-.seat {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-
-/* Driver section styling */
-.driver {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 10px;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .seats-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-    }
-    
-    .seat {
-        height: 35px;
-        font-size: 0.8rem;
-    }
-}
 
-@media (max-width: 480px) {
-    .seats-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 6px;
-    }
-    
-    .seat {
-        height: 30px;
-        font-size: 0.7rem;
-    }
-    
-    .legend {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-}
 
 .gap-row {
     display: none; /* Hidden by default */
