@@ -13,11 +13,20 @@ function initSeatSelection() {
     seatsGrid.innerHTML = '';
     
     // Create seats (2+1 layout - 2 seats on left, aisle, 1 seat on right)
-    const totalRows = 10;
+    const totalRows = 4; // Changed from 10 to 4 as requested
     const seatsPerRow = 4; // 2 left, aisle, 1 right
     
     for (let row = 0; row < totalRows; row++) {
-        const rowLetter = String.fromCharCode(65 + row); // A, B, C, etc.
+        const rowLetter = String.fromCharCode(65 + row); // A, B, C, D
+        
+        // Add extra gap after row 2 (between B and C)
+        if (row === 2) {
+            const gapRow = document.createElement('div');
+            gapRow.className = 'gap-row';
+            gapRow.style.gridColumn = '1 / -1';
+            gapRow.style.height = '20px'; // Adjust gap size as needed
+            seatsGrid.appendChild(gapRow);
+        }
         
         for (let seatNum = 1; seatNum <= seatsPerRow; seatNum++) {
             // Skip the aisle (seatNum 3 in each row)
